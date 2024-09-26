@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import TitleBar from "@/components/ui/titleBar";
 
 export const metadata: Metadata = {
   title: "Chat app",
@@ -21,6 +22,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <TitleBar />
           {children}
         </ThemeProvider>
       </body>
