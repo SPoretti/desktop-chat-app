@@ -3,9 +3,13 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
 
-export default function InputBar() {
+interface InputBarProps {
+  onSubmit: (message: string) => void;
+}
+
+export default function InputBar({ onSubmit }: InputBarProps) {
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,25 +18,27 @@ export default function InputBar() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setInputValue("");
+    if (inputValue.trim() !== "") {
+      onSubmit(inputValue);
+      setInputValue("");
+    }
   };
+
   return (
-    <div className="flex items-center justify-between p-4 border-t w-full h-full">
-      <form
-        onSubmit={handleSubmit}
-        className="flex items-center gap-2 w-full h-full"
-      >
-        <Input
-          placeholder="Type..."
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          className=""
-        />
-        <Button type="submit">
-          <ArrowRight />
-        </Button>
-      </form>
-    </div>
+    <form
+      onSubmit={handleSubmit}
+      className="w-full h-full flex items-center p-2"
+    >
+      <Input
+        placeholder="Type a message..."
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+        className="flex-grow mr-2"
+      />
+      <Button type="submit" size="icon">
+        <PaperPlaneIcon />
+      </Button>
+    </form>
   );
 }
